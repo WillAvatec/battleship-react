@@ -1,4 +1,4 @@
-import { describe } from "vitest";
+import { describe, test, it, expect } from "vitest";
 import { Player } from "../player";
 import GameBoard from "../board";
 
@@ -7,7 +7,7 @@ beforeEach(() => {
   player = new Player();
 });
 
-describe("Testing player Class", () => {
+describe("Testing player constructor properties", () => {
   test("default name for player", () => {
     expect(player.name).toBe("Player's Board");
   });
