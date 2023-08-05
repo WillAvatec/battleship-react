@@ -12,7 +12,7 @@ const SHIP_SIZES = [4, 4, 3, 3, 2];
 export class GameData {
   player: Player;
   computer: Player;
-  isGameOver: boolean;
+  gameState: string;
   playerBoard: GameBoard;
   computerBoard: GameBoard;
   playerShips: Ship[];
@@ -25,7 +25,7 @@ export class GameData {
     this.computerBoard = new GameBoard(BOARD_SIZE);
     this.playerShips = this.generateShips(SHIPS_AMMOUNT);
     this.computerShips = this.generateShips(SHIPS_AMMOUNT);
-    this.isGameOver = false;
+    this.gameState = "start";
   }
 
   // Returns an array of Ships
