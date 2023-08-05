@@ -1,3 +1,4 @@
+import { gameState } from "../types/type";
 import GameBoard from "./board";
 import { Player } from "./player";
 import Ship from "./ship";
@@ -12,13 +13,13 @@ const SHIP_SIZES = [4, 4, 3, 3, 2];
 export class GameData {
   player: Player;
   computer: Player;
-  gameState: string;
+  gameState: gameState;
   playerBoard: GameBoard;
   computerBoard: GameBoard;
   playerShips: Ship[];
   computerShips: Ship[];
 
-  constructor(playerName: string) {
+  constructor(playerName = "Player") {
     this.player = new Player(playerName);
     this.computer = new Player("computer");
     this.playerBoard = new GameBoard(BOARD_SIZE);

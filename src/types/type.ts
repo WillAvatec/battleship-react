@@ -11,3 +11,5 @@ export type ShipPosition = {
   start: Coords;
   ship: Ship;
 };
+
+export type gameState = "start" | "onPlay" | "end";
