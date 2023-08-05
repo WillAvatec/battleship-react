@@ -1,3 +1,4 @@
+import { GameData } from "../constructors/gameData";
 import Ship from "../constructors/ship";
 
 // Board Related
@@ -13,3 +14,9 @@ export type ShipPosition = {
 };
 
 export type gameState = "start" | "onPlay" | "end";
+
+export interface GameDataContextValue {
+  data: GameData | null;
+  winner: string;
+  initGameData: (name?: string) => void;
+}
