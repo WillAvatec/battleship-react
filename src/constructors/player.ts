@@ -9,9 +9,9 @@ export class Player {
     if (name === "computer") {
       // Pick one randomly
       const names = ["Joey", "Mark", "Will", "Colonel", "Beth"];
-      this.name = names[Math.floor(Math.random() * names.length)] + "'s Board";
+      this.name = names[Math.floor(Math.random() * names.length)];
     } else {
-      this.name = name + "'s Board";
+      this.name = name;
     }
 
     this.record = [];

@@ -9,11 +9,16 @@ beforeEach(() => {
 
 describe("Testing player constructor properties", () => {
   test("default name for player", () => {
-    expect(player.name).toBe("Player's Board");
+    expect(player.name).toBe("Player");
   });
   it("should change a name if passed", () => {
     player = new Player("Rodrigo");
-    expect(player.name).toBe("Rodrigo's Board");
+    expect(player.name).toBe("Rodrigo");
+  });
+  it("Should pick a random name, when 'computer' parameter is provided", () => {
+    const names = ["Joey", "Mark", "Will", "Colonel", "Beth"];
+    player = new Player("computer");
+    expect(doNameIsInList(player.name, names)).toBe(true);
   });
   it("should have a record of past attacks", () => {
     expect(player.record).toBeInstanceOf(Array);
@@ -41,3 +46,14 @@ describe("Testing attacks to board", () => {
     expect(player.record.length).toBe(100);
   });
 });
+
+// Helper function to check assertion
+
+function doNameIsInList(name: string, arr: string[]) {
+  console.log("Name:", name);
+  for (const arrName of arr) {
+    if (name === arrName) return true;
+  }
+
+  return false;
+}
