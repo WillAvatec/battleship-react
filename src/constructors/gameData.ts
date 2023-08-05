@@ -19,7 +19,7 @@ export class GameData {
   playerShips: Ship[];
   computerShips: Ship[];
 
-  constructor(playerName = "Player") {
+  constructor(playerName?: string) {
     this.player = new Player(playerName);
     this.computer = new Player("computer");
     this.playerBoard = new GameBoard(BOARD_SIZE);
