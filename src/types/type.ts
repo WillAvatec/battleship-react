@@ -16,7 +16,7 @@ export type ShipPosition = {
 export type gameState = "start" | "onPlay" | "end";
 
 export interface GameDataContextValue {
-  data: GameData | null;
+  data: GameData;
   winner: string;
   initGameData: (name?: string) => void;
 }

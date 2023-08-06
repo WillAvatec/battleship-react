@@ -8,15 +8,24 @@ import { GameDataContextValue } from "../types/type";
 */
 
 // Create context
-export const DataContext = createContext<GameDataContextValue | null>(null);
+export const DataContext = createContext<GameDataContextValue>({
+  data: new GameData(),
+  initGameData: () => {},
+  winner: "",
+});
 
 // Create provider (it's wrapped inside GameDataProvider)
 export function GameDataProvider({ children }: { children: React.ReactNode }) {
-  const [gameData, setGameData] = useState<GameData | null>(null);
+  const [gameData, setGameData] = useState<GameData>(new GameData());
   const [winner, setWinner] = useState("");
 
   const initGameData = (name?: string) => {
-    setGameData(new GameData(name));
+    setGameData(() => {
+      // Change name and set gameState to onPlay
+      const newData = new GameData(name);
+      newData.gameState = "onPlay";
+      return newData;
+    });
     setWinner("");
   };
 
