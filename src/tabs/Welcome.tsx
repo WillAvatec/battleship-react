@@ -1,12 +1,16 @@
-import { Dispatch, SetStateAction, useRef } from "react";
+import { useRef } from "react";
 
-function Welcome({ setName }: { setName: Dispatch<SetStateAction<string>> }) {
+interface WelcomeProps {
+  trigger: (name?: string) => void;
+}
+
+function Welcome({ trigger }: WelcomeProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (inputRef.current) {
-      setName(inputRef.current.value);
+      trigger(inputRef.current.value || undefined);
     }
   };
 
