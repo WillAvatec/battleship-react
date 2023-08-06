@@ -1,4 +1,4 @@
-import { Coords, ShipPosition } from "../types/type";
+import { Coords, ShipPosition, memBoardType } from "../types/type";
 import Ship from "./ship";
 
 const BOARD_MAX_INDEX = 9;
@@ -7,7 +7,7 @@ const MAX_SHIPS = 5;
 export default class GameBoard {
   size: number;
   shipPositions: ShipPosition[];
-  memBoard: (Ship | number)[][];
+  memBoard: memBoardType;
   enemyShots: Coords[];
 
   constructor(size = 10) {

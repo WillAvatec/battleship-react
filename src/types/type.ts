@@ -13,7 +13,11 @@ export type ShipPosition = {
   ship: Ship;
 };
 
+export type memBoardType = (Ship | number)[][];
+
 export type gameState = "start" | "onPlay" | "end";
+
+// General Interfaces / Types
 
 export interface GameDataContextValue {
   data: GameData;
