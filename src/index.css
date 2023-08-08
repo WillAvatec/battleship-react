@@ -25,3 +25,8 @@ body,
   min-height: 100% !important;
   height: 100%;
 }
+
+/* Mark a ship in the Placement Menu */
+.selected {
+  outline: 5px double #00c6f8;
+}
