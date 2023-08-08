@@ -1,16 +1,22 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { DataContext } from "../context/data";
 
-interface WelcomeProps {
-  trigger: (name?: string) => void;
-}
+function Welcome() {
+  // Context to update data
+  const game = useContext(DataContext);
 
-function Welcome({ trigger }: WelcomeProps) {
+  // Reference to control input value
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // Hook that returns a function to change routes
+  const goTo = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (inputRef.current) {
-      trigger(inputRef.current.value || undefined);
+      game.initGameData(inputRef.current.value || undefined);
+      goTo("/placement");
     }
   };
 
