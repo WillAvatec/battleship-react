@@ -7,7 +7,7 @@ interface BoardProps {
 
 export function Board({ memBoard }: BoardProps) {
   return (
-    <div className="placement-board border-pink-600 relative w-64 h-64 md:w-80 md:h-80  border-8 bg-slate-900 flex flex-col ">
+    <div className="board border-pink-600 relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 border-8 bg-slate-900 flex flex-col">
       {memBoard.map((row, i) => {
         const isFirstRow = i === 0;
         return (
