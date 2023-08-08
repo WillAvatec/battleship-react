@@ -1,26 +1,14 @@
 export default class Ship {
-  private _isVertical: boolean;
-  private _size: number;
+  isVertical: boolean;
+  size: number;
   hits: number;
   sunked: boolean;
 
-  get isVertical() {
-    return this._isVertical;
-  }
-
-  set isVertical(value: boolean) {
-    this._isVertical = value;
-  }
-
-  get size() {
-    return this._size;
-  }
-
   constructor(size = 1) {
-    this._size = size;
+    this.size = size;
     this.hits = 0;
     this.sunked = false;
-    this._isVertical = false;
+    this.isVertical = false;
   }
 
   // Increment the hits of the ship
