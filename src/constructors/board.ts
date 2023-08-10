@@ -18,7 +18,7 @@ export default class GameBoard {
     this.createMemBoard(size);
   }
 
-  private createMemBoard(size: number) {
+  createMemBoard(size: number) {
     // Create board in memory to store the data
     this.memBoard = Array(size)
       .fill(undefined)
@@ -47,96 +47,69 @@ export default class GameBoard {
   }
 
   isAvailable(coords: Coords, ship: Ship): boolean {
+    const { isVertical, size } = ship;
+    const { column, row } = coords;
+
     // Ensure that coords are inside board boundaries
-    if (coords.row < 0 || coords.row > BOARD_MAX_INDEX) return false;
-    if (coords.column < 0 || coords.column > BOARD_MAX_INDEX) return false;
+    if (row < 0 || row > BOARD_MAX_INDEX) return false;
+    if (column < 0 || column > BOARD_MAX_INDEX) return false;
 
     // Ensure that ship won't overflow outside the board
-    if (ship.isVertical && coords.row + ship.size > BOARD_MAX_INDEX)
-      return false;
-    if (!ship.isVertical && coords.column + ship.size > BOARD_MAX_INDEX)
-      return false;
+    if (isVertical && row - 1 + ship.size > BOARD_MAX_INDEX) return false;
+    if (!isVertical && column - 1 + ship.size > BOARD_MAX_INDEX) return false;
 
     // Check that position isn't occupied by another ship
-    for (const position of this.shipPositions) {
-      const existingShip = position.ship;
-      const existingCoords = position.start;
-
-      if (ship.isVertical) {
-        if (
-          coords.column === existingCoords.column &&
-          coords.row >= existingCoords.row &&
-          coords.row < existingCoords.row + existingShip.size
-        ) {
-          return false;
-        }
-        // Check for intersection with a horizontal ship
-        if (
-          !existingShip.isVertical &&
-          existingCoords.row <= coords.row &&
-          existingCoords.row + existingShip.size > coords.row &&
-          existingCoords.column <= coords.column &&
-          coords.column < existingCoords.column + existingShip.size
-        ) {
-          return false;
-        }
-      } else {
-        if (
-          coords.row === existingCoords.row &&
-          coords.column >= existingCoords.column &&
-          coords.column < existingCoords.column + existingShip.size
-        ) {
-          return false;
-        }
-        // Check for intersection with a vertical ship
-        if (
-          existingShip.isVertical &&
-          existingCoords.column <= coords.column &&
-          existingCoords.column + existingShip.size > coords.column &&
-          existingCoords.row <= coords.row &&
-          coords.row < existingCoords.row + existingShip.size
-        ) {
-          return false;
-        }
+    if (isVertical) {
+      for (let i = 0; i < size; i++) {
+        if (this.memBoard[row + i][column] !== 0) return false;
+      }
+    }
+    if (!isVertical) {
+      for (let i = 0; i < size; i++) {
+        if (this.memBoard[row][column + i] !== 0) return false;
       }
     }
 
+    //Check that ship isn't already in board
+    const isAlreadySaved = this.shipPositions.find((shipPos) =>
+      Object.is(shipPos.ship, ship)
+    );
+    if (isAlreadySaved) return false;
+
     // Check that the neighboard cells aren't occupied
-    if (ship.isVertical) {
+    if (isVertical) {
       for (let i = 0; i < ship.size; i++) {
         for (let m = -1; m <= 1; m++) {
           for (let n = -1; n <= 1; n++) {
             // Don't access array if the position is out of the board
             if (
-              coords.row + m + i < 0 ||
-              coords.row + m + i > BOARD_MAX_INDEX ||
-              coords.column + n < 0 ||
-              coords.column + n > BOARD_MAX_INDEX
+              row + m + i < 0 ||
+              row + m + i > BOARD_MAX_INDEX ||
+              column + n < 0 ||
+              column + n > BOARD_MAX_INDEX
             )
               continue;
 
             // Return false if space is occupied by ship
-            if (this.memBoard[coords.row + m + i][coords.column + n])
-              return false;
+            if (this.memBoard[row + m + i][column + n]) return false;
           }
         }
       }
-    } else if (!ship.isVertical) {
+    } else if (!isVertical) {
       for (let i = 0; i < ship.size; i++) {
         for (let m = -1; m <= 1; m++) {
           for (let n = -1; n <= 1; n++) {
             // Don't access array if the position is out of the board
             if (
-              coords.row + m < 0 ||
-              coords.row + m > BOARD_MAX_INDEX ||
-              coords.column + n + i < 0 ||
-              coords.column + n + i > BOARD_MAX_INDEX
+              row + m < 0 ||
+              row + m > BOARD_MAX_INDEX ||
+              column + n + i < 0 ||
+              column + n + i > BOARD_MAX_INDEX
             )
               continue;
 
             // Return false if space is occupied by ship
-            if (this.memBoard[coords.row + m][coords.column + n + i])
-              return false;
+            if (this.memBoard[row + m][column + n + i]) return false;
           }
         }
       }
@@ -147,12 +120,12 @@ export default class GameBoard {
   }
 
   // Return ship that matches the starting position or is in between the cells of its size
-  findShip(coords: Coords): Ship | null {
+  findShip(coords: Coords): ShipPosition | null {
     const shipIndex = this.shipPositions.findIndex((ship) =>
       this.isShipInArray(ship, coords)
     );
     if (shipIndex === -1) return null;
-    return this.shipPositions[shipIndex].ship;
+    return this.shipPositions[shipIndex];
   }
 
   placeShip(coords: Coords, ship: Ship): boolean {
@@ -193,13 +166,13 @@ export default class GameBoard {
     // Cell wasn't touch before, save enemy attack coords
     this.enemyShots.push(coords);
 
-    const possibleShip = this.findShip(coords);
+    const possibleShipPos = this.findShip(coords);
 
     // Didn't hit a boat
-    if (possibleShip === null) return false;
+    if (possibleShipPos === null) return false;
 
     // It hitted a boat
-    possibleShip.hit();
+    possibleShipPos.ship.hit();
     return true;
   }
 

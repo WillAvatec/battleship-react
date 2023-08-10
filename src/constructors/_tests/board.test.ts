@@ -17,6 +17,12 @@ describe("Testing isAvailable method", () => {
     expect(_gameboard.isAvailable({ column: 0, row: 0 }, _ship)).toBe(true);
   });
 
+  it("Should return false if ship was already positioned", () => {
+    expect(_gameboard.placeShip({ column: 0, row: 0 }, _ship)).toBe(true);
+    expect(_gameboard.isAvailable({ column: 4, row: 4 }, _ship)).toBe(false);
+    expect(_gameboard.placeShip({ column: 4, row: 4 }, _ship)).toBe(false);
+  });
+
   it("Should return true if coordinates are inside board and touch edge", () => {
     expect(_gameboard.isAvailable({ column: 7, row: 0 }, _ship)).toBe(true);
     _ship.isVertical = !_ship.isVertical;
