@@ -17,6 +17,12 @@ describe("Testing isAvailable method", () => {
     expect(_gameboard.isAvailable({ column: 0, row: 0 }, _ship)).toBe(true);
   });
 
+  it("Should return true if coordinates are inside board and touch edge", () => {
+    expect(_gameboard.isAvailable({ column: 7, row: 0 }, _ship)).toBe(true);
+    _ship.isVertical = !_ship.isVertical;
+    expect(_gameboard.isAvailable({ column: 0, row: 7 }, _ship)).toBe(true);
+  });
+
   it("Should return false if coords are outside board", () => {
     expect(_gameboard.isAvailable({ column: -1, row: -5 }, _ship)).toBe(false);
     expect(_gameboard.isAvailable({ column: 0, row: -5 }, _ship)).toBe(false);
@@ -26,14 +32,14 @@ describe("Testing isAvailable method", () => {
   it("Should return false if ship overflows outside board", () => {
     // Horizontal ship
     expect(_gameboard.isAvailable({ column: 8, row: 6 }, _ship)).toBe(false);
-    expect(_gameboard.isAvailable({ column: 7, row: 5 }, _ship)).toBe(false);
+    expect(_gameboard.isAvailable({ column: 9, row: 5 }, _ship)).toBe(false);
     expect(_gameboard.isAvailable({ column: 9, row: 4 }, _ship)).toBe(false);
 
     // Vertical ship
     const _ship2 = new Ship(3);
     _ship2.isVertical = true;
     expect(_gameboard.isAvailable({ column: 6, row: 8 }, _ship2)).toBe(false);
-    expect(_gameboard.isAvailable({ column: 5, row: 7 }, _ship2)).toBe(false);
+    expect(_gameboard.isAvailable({ column: 5, row: 9 }, _ship2)).toBe(false);
     expect(_gameboard.isAvailable({ column: 4, row: 9 }, _ship2)).toBe(false);
   });
 
@@ -55,13 +61,25 @@ describe("Testing isAvailable method", () => {
     expect(_gameboard2.isAvailable({ column: 0, row: 2 }, _ship)).toBe(false);
   });
 
-  it("Should return false if neighboring cells are occupied", () => {
+  it("Should evaluate correctly if neighboring cells are occupied", () => {
     const _ship2 = new Ship(3);
-    _gameboard.placeShip({ column: 1, row: 1 }, _ship);
-    expect(_gameboard.isAvailable({ column: 0, row: 0 }, _ship2)).toBe(false);
-    expect(_gameboard.isAvailable({ column: 4, row: 0 }, _ship2)).toBe(false);
-    expect(_gameboard.isAvailable({ column: 2, row: 2 }, _ship2)).toBe(false);
-    expect(_gameboard.isAvailable({ column: 0, row: 2 }, _ship2)).toBe(false);
+    _ship2.isVertical = !_ship2.isVertical;
+
+    _gameboard.placeShip({ column: 0, row: 0 }, _ship2);
+    // Available adjacents cells
+    expect(_gameboard.isAvailable({ column: 2, row: 0 }, _ship)).toBe(true);
+    expect(_gameboard.isAvailable({ column: 2, row: 1 }, _ship)).toBe(true);
+    expect(_gameboard.isAvailable({ column: 2, row: 2 }, _ship)).toBe(true);
+    expect(_gameboard.isAvailable({ column: 2, row: 3 }, _ship)).toBe(true);
+    expect(_gameboard.isAvailable({ column: 1, row: 4 }, _ship)).toBe(true);
+    expect(_gameboard.isAvailable({ column: 0, row: 4 }, _ship)).toBe(true);
+
+    // Unavailable Adjacent cells
+    expect(_gameboard.isAvailable({ column: 1, row: 0 }, _ship)).toBe(false);
+    expect(_gameboard.isAvailable({ column: 1, row: 1 }, _ship)).toBe(false);
+    expect(_gameboard.isAvailable({ column: 1, row: 2 }, _ship)).toBe(false);
+    expect(_gameboard.isAvailable({ column: 1, row: 3 }, _ship)).toBe(false);
+    expect(_gameboard.isAvailable({ column: 0, row: 3 }, _ship)).toBe(false);
   });
 });
 
