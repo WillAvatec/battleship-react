@@ -21,7 +21,7 @@ function Welcome() {
   };
 
   return (
-    <>
+    <div className="fixed z-10 left-0 top-0 w-full h-full bg-no-repeat bg-cover min-w-full min-h-full flex justify-center content-center">
       <form className="grid grid-cols-[repeat(auto-fit,minmax(200px,400px))] grid-rows-3 justify-center gap-7 min-h-[200px] p-5 w-11/12 mx-auto my-auto justify-items-center rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white max-w-screen-sm">
         <div className="flex align-center">
           <p
@@ -47,7 +47,7 @@ function Welcome() {
           Start Game
         </button>
       </form>
-    </>
+    </div>
   );
 }
 
