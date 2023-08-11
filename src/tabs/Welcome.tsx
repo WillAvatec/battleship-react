@@ -16,6 +16,7 @@ function Welcome() {
     e.preventDefault();
     if (inputRef.current) {
       game.initGameData(inputRef.current.value || undefined);
+      game.updateState("setup");
       goTo("/placement");
     }
   };
