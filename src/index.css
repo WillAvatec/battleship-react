@@ -30,3 +30,7 @@ body,
 .selected {
   outline: 5px double #00c6f8;
 }
+
+.selected-vertical {
+  outline: 5px double orange;
+}
