@@ -6,11 +6,15 @@ import Welcome from "./tabs/Welcome.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { GameDataProvider } from "./context/data.tsx";
 import "./index.css";
+import VictoryPage from "./tabs/Victory.tsx";
+import LosePage from "./tabs/Lose.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Welcome /> },
   { path: "/placement", element: <PlacementMenu /> },
   { path: "/game", element: <MainGame /> },
+  { path: "/winner", element: <VictoryPage /> },
+  { path: "/lose", element: <LosePage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
