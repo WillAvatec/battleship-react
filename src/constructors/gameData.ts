@@ -1,4 +1,3 @@
-import { gameState } from "../types/type";
 import GameBoard from "./board";
 import { Player } from "./player";
 import Ship from "./ship";
@@ -13,11 +12,10 @@ const SHIP_SIZES = [4, 4, 3, 3, 2];
 export class GameData {
   player: Player;
   computer: Player;
-  gameState: gameState;
-  playerBoard: GameBoard;
-  computerBoard: GameBoard;
   playerShips: Ship[];
   computerShips: Ship[];
+  playerBoard: GameBoard;
+  computerBoard: GameBoard;
 
   constructor(playerName?: string) {
     this.player = new Player(playerName);
@@ -26,7 +24,7 @@ export class GameData {
     this.computerBoard = new GameBoard(BOARD_SIZE);
     this.playerShips = this.generateShips(SHIPS_AMMOUNT);
     this.computerShips = this.generateShips(SHIPS_AMMOUNT);
-    this.gameState = "start";
+    this.computerBoard.generateRandomBoard(this.computerShips);
   }
 
   // Returns an array of Ships
