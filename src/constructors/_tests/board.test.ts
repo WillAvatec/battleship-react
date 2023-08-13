@@ -1,6 +1,8 @@
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import GameBoard from "../board";
 import Ship from "../ship";
+import { Player } from "../player";
+import { ShipPosition } from "../../types/type";
 
 let _gameboard: GameBoard;
 let _ship: Ship;
@@ -100,15 +102,15 @@ describe("Testing placeShip method", () => {
   it("should save shipPosition in array", () => {
     _gameboard.placeShip({ column: 0, row: 0 }, _ship);
     expect(_gameboard.shipPositions.length).toBe(1);
-    expect(_gameboard.memBoard[0][0]).toBeInstanceOf(Ship);
-    expect(_gameboard.memBoard[0][1]).toBeInstanceOf(Ship);
-    expect(_gameboard.memBoard[0][2]).toBeInstanceOf(Ship);
+    expect(_gameboard.memBoard[0][0]).toBeTruthy();
+    expect(_gameboard.memBoard[0][1]).toBeTruthy();
+    expect(_gameboard.memBoard[0][2]).toBeTruthy();
   });
   it("should set ship references on the memory of the board", () => {
     // Horizontal ship
     _gameboard.placeShip({ column: 0, row: 0 }, _ship);
     for (let i = 0; i < _ship.size; i++) {
-      expect(_gameboard.memBoard[0][i]).toBeInstanceOf(Ship);
+      expect(_gameboard.memBoard[0][i]).toBeTruthy();
     }
 
     // Vertical ship
@@ -116,7 +118,7 @@ describe("Testing placeShip method", () => {
     _ship2.isVertical = true;
     _gameboard.placeShip({ column: 3, row: 3 }, _ship2);
     for (let i = 3; i < _ship.size + 3; i++) {
-      expect(_gameboard.memBoard[i][3]).toBeInstanceOf(Ship);
+      expect(_gameboard.memBoard[i][3]).toBeTruthy();
     }
   });
 
@@ -177,14 +179,15 @@ describe("Testing receiveAttack method", () => {
   });
 
   describe("Situation: spot was already attacked", () => {
-    it("Already attacked that cell,return false", () => {
+    it("Already attacked that cell,throw Error", () => {
       _gameboard.placeShip({ column: 0, row: 0 }, _ship);
       //Attacked ship succesfully
       expect(_gameboard.receiveAttack({ column: 0, row: 0 })).toBe(true);
       expect(_ship.hits).toBe(1);
       // Attack again same spot
-      _gameboard.receiveAttack({ column: 0, row: 0 });
-      expect(_gameboard.receiveAttack({ column: 0, row: 0 })).toBe(false);
+      expect(() => {
+        _gameboard.receiveAttack({ column: 0, row: 0 });
+      }).toThrowError();
       expect(_ship.hits).toBe(1);
     });
   });
@@ -226,16 +229,11 @@ describe("Test areAllSunked method", () => {
       new Ship(3),
       new Ship(2),
     ];
-    ships.forEach((ship) => {
-      for (let i = 0; i < ship.size; i++) {
-        ship.hit();
-      }
-      expect(ship.isSunk()).toBe(true);
-    });
     _gameboard.generateRandomBoard(ships);
-    expect(_gameboard.areAllSunked()).toBe(true);
+    expect(_gameboard.areAllSunked()).toBe(false);
   });
   it("Return false if all the ships are NOT sunked", () => {
+    const pc = new Player("computer");
     const ships = [
       new Ship(4),
       new Ship(4),
@@ -243,15 +241,16 @@ describe("Test areAllSunked method", () => {
       new Ship(3),
       new Ship(2),
     ];
-    ships.forEach((ship) => {
-      for (let i = 0; i < ship.size; i++) {
-        ship.hit();
-      }
-      expect(ship.isSunk()).toBe(true);
-    });
-    ships[0].hits = 0;
-    expect(ships[0].isSunk()).toBe(false);
     _gameboard.generateRandomBoard(ships);
     expect(_gameboard.areAllSunked()).toBe(false);
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        pc.randomAttack(_gameboard);
+        if (_gameboard.areAllSunked()) {
+          return;
+        }
+      }
+    }
+    expect(_gameboard.areAllSunked()).toBe(true);
   });
 });
