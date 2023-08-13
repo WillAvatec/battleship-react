@@ -25,27 +25,6 @@ export default class GameBoard {
       .map(() => new Array(size).fill(0));
   }
 
-  // Do a comparison of coords, checking if they match
-  private isShipInArray(shipPos: ShipPosition, coords: Coords) {
-    const { column, row } = shipPos.start;
-    const { ship } = shipPos;
-    // Check on rows for ship
-    if (ship.isVertical) {
-      for (let i = 0; i < ship.size; i++) {
-        if (coords.column + i === row) return true;
-      }
-    }
-
-    //Check on columns from ship
-    if (!ship.isVertical) {
-      for (let i = 0; i < ship.size; i++) {
-        if (coords.row + i === column) return true;
-      }
-    }
-
-    return false;
-  }
-
   isAvailable(coords: Coords, ship: Ship): boolean {
     const { isVertical, size } = ship;
     const { column, row } = coords;
@@ -119,15 +98,6 @@ export default class GameBoard {
     return true;
   }
 
-  // Return ship that matches the starting position or is in between the cells of its size
-  findShip(coords: Coords): ShipPosition | null {
-    const shipIndex = this.shipPositions.findIndex((ship) =>
-      this.isShipInArray(ship, coords)
-    );
-    if (shipIndex === -1) return null;
-    return this.shipPositions[shipIndex];
-  }
-
   placeShip(coords: Coords, ship: Ship): boolean {
     if (!this.isAvailable(coords, ship)) return false;
     if (ship.size < 1) return false;
@@ -135,14 +105,20 @@ export default class GameBoard {
     // Spam ship on multiple rows
     if (ship.isVertical) {
       for (let i = 0; i < ship.size; i++) {
-        this.memBoard[coords.row + i][coords.column] = ship;
+        this.memBoard[coords.row + i][coords.column] = {
+          start: coords,
+          ship,
+        };
       }
     }
 
     // Spam ship on multiple columns
     if (!ship.isVertical) {
       for (let i = 0; i < ship.size; i++) {
-        this.memBoard[coords.row][coords.column + i] = ship;
+        this.memBoard[coords.row][coords.column + i] = {
+          start: coords,
+          ship,
+        };
       }
     }
 
@@ -154,26 +130,34 @@ export default class GameBoard {
     return true;
   }
 
+  //Returns true if it hits a boat
   receiveAttack(coords: Coords) {
-    // Check if enemy attacked cell before
+    // This cell was attack before, it is in the historial
     if (
       this.enemyShots.some(
-        (shot) => shot.column === coords.column && shot.row === coords.row
+        (shot) => JSON.stringify(shot) === JSON.stringify(coords)
       )
     )
-      return false;
+      throw new Error("This cell was attacked before");
 
-    // Cell wasn't touch before, save enemy attack coords
+    // Cell wasn't touch before, save coords of the attack
     this.enemyShots.push(coords);
 
-    const possibleShipPos = this.findShip(coords);
+    // Check if there is a ship in the coords provided
+    const possibleShip = this.memBoard[coords.row][coords.column];
 
-    // Didn't hit a boat
-    if (possibleShipPos === null) return false;
-
-    // It hitted a boat
-    possibleShipPos.ship.hit();
-    return true;
+    if (possibleShip === 0) {
+      return false;
+    } else {
+      // It hitted a boat, search for it
+      // Look for it in the shipPositions
+      const ship = this.shipPositions.find((shiPos) => {
+        return JSON.stringify(shiPos) === JSON.stringify(possibleShip);
+      });
+      ship?.ship.hit();
+      this.areAllSunked();
+      return true;
+    }
   }
 
   generateRandomBoard(shipsArray: Ship[]) {
@@ -196,11 +180,14 @@ export default class GameBoard {
 
   areAllSunked() {
     // Check that board is full of ships
-    if (this.shipPositions.length < MAX_SHIPS) return false;
-    for (const shipPos of this.shipPositions) {
-      if (!shipPos.ship.isSunk()) return false;
+    const length = this.shipPositions.length;
+    if (length < MAX_SHIPS) return false;
+    for (let i = 0; i < length; i++) {
+      //If at least one ship is not sunked, then it means that not all the ships are sunked
+      if (!this.shipPositions[i].ship.isSunk()) return false;
     }
 
+    // The iteration is over and didn't found a ship that wasn't sunked
     return true;
   }
 }
