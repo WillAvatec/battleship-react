@@ -50,7 +50,6 @@ describe("Testing attacks to board", () => {
 // Helper function to check assertion
 
 function doNameIsInList(name: string, arr: string[]) {
-  console.log("Name:", name);
   for (const arrName of arr) {
     if (name === arrName) return true;
   }
