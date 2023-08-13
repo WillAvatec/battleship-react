@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import GameBoard from "../board";
 import Ship from "../ship";
 import { Player } from "../player";
-import { ShipPosition } from "../../types/type";
 
 let _gameboard: GameBoard;
 let _ship: Ship;
