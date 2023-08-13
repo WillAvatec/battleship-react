@@ -16,7 +16,7 @@ describe("Testing player constructor properties", () => {
     expect(player.name).toBe("Rodrigo");
   });
   it("Should pick a random name, when 'computer' parameter is provided", () => {
-    const names = ["Joey", "Mark", "Will", "Colonel", "Beth"];
+    const names = ["Joey", "Mark", "Will", " The Colonel", "Beth"];
     player = new Player("computer");
     expect(doNameIsInList(player.name, names)).toBe(true);
   });
