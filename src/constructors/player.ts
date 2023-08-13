@@ -1,4 +1,4 @@
-import { Coords } from "../types/type";
+import { Coords, RandomAttack } from "../types/type";
 import GameBoard from "./board";
 
 export class Player {
@@ -8,7 +8,7 @@ export class Player {
   constructor(name = "Player") {
     if (name === "computer") {
       // Pick one randomly
-      const names = ["Joey", "Mark", "Will", "Colonel", "Beth"];
+      const names = ["Joey", "Mark", "Will", "The Colonel", "Beth"];
       this.name = names[Math.floor(Math.random() * names.length)];
     } else {
       this.name = name;
@@ -31,7 +31,7 @@ export class Player {
     return board.receiveAttack(coords);
   }
 
-  randomAttack(board: GameBoard) {
+  randomAttack(board: GameBoard): RandomAttack | false {
     if (this.record.length === 100) {
       return false;
     }
@@ -44,9 +44,16 @@ export class Player {
       column = Math.floor(Math.random() * 10);
     }
 
-    const value = this.attackTo({ column, row }, board);
+    const didHit = this.attackTo({ column, row }, board); //This was value
 
-    return [row, column, value];
+    /* [row, column, value]; */
+    return {
+      coords: {
+        column,
+        row,
+      },
+      didHit,
+    };
   }
 
   hasAlreadyHit(coords: Coords) {
