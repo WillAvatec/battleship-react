@@ -15,13 +15,17 @@ export default class Ship {
   hit() {
     if (this.hits < this.size) {
       this.hits += 1;
+      this.isSunk();
     }
     return this.hits;
   }
 
   // Check if boat was sunked
   isSunk() {
-    if (this.hits === this.size) return true;
+    if (this.hits === this.size) {
+      this.sunked = true;
+      return true;
+    }
     return false;
   }
 }
