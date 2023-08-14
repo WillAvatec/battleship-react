@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import PlacementMenu from "./tabs/PlacementMenu.tsx";
+import Placement from "./tabs/Placement.tsx";
 import MainGame from "./tabs/MainGame.tsx";
 import Welcome from "./tabs/Welcome.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -11,7 +11,7 @@ import LosePage from "./tabs/Lose.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Welcome /> },
-  { path: "/placement", element: <PlacementMenu /> },
+  { path: "/placement", element: <Placement /> },
   { path: "/game", element: <MainGame /> },
   { path: "/winner", element: <VictoryPage /> },
   { path: "/lose", element: <LosePage /> },

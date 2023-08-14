@@ -6,7 +6,7 @@ import { DataContext } from "../context/data";
 import { Coords } from "../types/type";
 import Ship from "../constructors/ship";
 
-function PlacementMenu() {
+function Placement() {
   //Get global data
   const game = useContext(DataContext);
   const data = game;
@@ -145,4 +145,4 @@ function ControlButton({
   );
 }
 
-export default PlacementMenu;
+export default Placement;
