@@ -8,13 +8,13 @@ export default class GameBoard {
   size: number;
   shipPositions: ShipPosition[];
   memBoard: memBoardType;
-  enemyShots: Coords[];
+  shots: Coords[];
 
   constructor(size = 10) {
     this.size = size;
     this.memBoard = [];
     this.shipPositions = [];
-    this.enemyShots = [];
+    this.shots = [];
     this.createMemBoard(size);
   }
 
@@ -134,14 +134,12 @@ export default class GameBoard {
   receiveAttack(coords: Coords) {
     // This cell was attack before, it is in the historial
     if (
-      this.enemyShots.some(
-        (shot) => JSON.stringify(shot) === JSON.stringify(coords)
-      )
+      this.shots.some((shot) => JSON.stringify(shot) === JSON.stringify(coords))
     )
       throw new Error("This cell was attacked before");
 
     // Cell wasn't touch before, save coords of the attack
-    this.enemyShots.push(coords);
+    this.shots.push(coords);
 
     // Check if there is a ship in the coords provided
     const possibleShip = this.memBoard[coords.row][coords.column];
