@@ -10,19 +10,19 @@ function Placement() {
   //Get global data
   const game = useContext(DataContext);
   const data = game;
-  const { playerBoard, playerShips } = data;
+  const { playerBoard, playerShips, updateShips } = data;
 
   const goTo = useNavigate();
+  useEffect(() => {
+    if (game.gameState !== "setup") goTo("/");
+  });
+
   const startGame = () => {
     if (playerBoard.shipPositions.length === 5) {
       game.updateState("onPlay");
       goTo("/game");
     }
   };
-
-  useEffect(() => {
-    if (game.gameState !== "setup") goTo("/");
-  });
 
   //Define the selected ship
   const [selected, setSelected] = useState<Ship>(playerShips[0]);
@@ -58,9 +58,12 @@ function Placement() {
     setPlacedShipsCells(cells);
   };
 
-  const handleDirection = () => {
-    const newShip = selected;
-    newShip.isVertical = !newShip.isVertical;
+  // Change direction and update context
+  const handleDirection = (index: number) => {
+    const newShips = [...playerShips];
+    const selected = newShips[index];
+    selected.isVertical = !selected.isVertical;
+    updateShips(newShips);
   };
 
   //Const reset board

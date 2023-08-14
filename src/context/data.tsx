@@ -9,9 +9,7 @@ const SHIPS_AMMOUNT = 5;
 const SHIP_SIZES = [4, 4, 3, 3, 2];
 
 // Create context
-export const DataContext = createContext<GameDataContextValue>(
-  {} as GameDataContextValue
-);
+export const DataContext = createContext({} as GameDataContextValue);
 
 // Create provider (it's wrapped inside GameDataProvider)
 export function GameDataProvider({ children }: { children: React.ReactNode }) {
@@ -62,21 +60,26 @@ export function GameDataProvider({ children }: { children: React.ReactNode }) {
     setComputerBoard(() => board);
   };
 
+  const updateShips = (newShips: Ship[]) => {
+    setPlayerShips(() => newShips);
+  };
+
   return (
     <DataContext.Provider
       value={{
-        computerBoard,
-        computerShips,
+        player,
         playerBoard,
         playerShips,
-        updateState,
-        updateBoard,
         initGameData,
-        gameState,
-        computer,
-        player,
-        winner,
+        updateState,
+        updateShips,
+        updateBoard,
         setWinner,
+        computer,
+        computerBoard,
+        computerShips,
+        gameState,
+        winner,
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import Ship from "../constructors/ship";
 
 interface ShipContainerProps {
   shipsArray: Ship[];
-  changeDirection: () => void;
+  changeDirection: (index: number) => void;
   select: (index: number) => void;
 }
 
@@ -31,7 +31,7 @@ function ShipPlacementContainer({
       {children}
       <div
         onClick={selectShip}
-        onDoubleClick={changeDirection}
+        onDoubleClick={() => changeDirection(shipIndex)}
         className="grid auto-cols-fr auto-rows-auto gap-5 md:gap-4 justify-center content-center px-6 py-3 h-64 md:px-7 md:py-4 bg-slate-700  shadow-lg shadow-cyan-500/50 rounded-xl"
       >
         {shipsArray.map((ship, index) => {
