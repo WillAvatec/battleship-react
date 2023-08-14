@@ -64,6 +64,22 @@ export function GameDataProvider({ children }: { children: React.ReactNode }) {
     setPlayerShips(() => newShips);
   };
 
+  const resetPlayerData = () => {
+    // Restart state of ships
+    const newShips = generateShips(SHIPS_AMMOUNT);
+    setPlayerShips(newShips);
+    // Restart state of board
+    setPlayerBoard(new GameBoard(BOARD_SIZE));
+  };
+
+  const generatePlayerRandom = () => {
+    setPlayerBoard(() => {
+      const newBoard = new GameBoard(BOARD_SIZE);
+      newBoard.generateRandomBoard(playerShips);
+      return newBoard;
+    });
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -74,6 +90,8 @@ export function GameDataProvider({ children }: { children: React.ReactNode }) {
         updateState,
         updateShips,
         updateBoard,
+        resetPlayerData,
+        generatePlayerRandom,
         setWinner,
         computer,
         computerBoard,

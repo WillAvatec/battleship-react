@@ -5,17 +5,25 @@ import { useNavigate } from "react-router-dom";
 import { DataContext } from "../context/data";
 import { Coords } from "../types/type";
 import Ship from "../constructors/ship";
+import GameBoard from "../constructors/board";
 
 function Placement() {
   //Get global data
   const game = useContext(DataContext);
   const data = game;
-  const { playerBoard, playerShips, updateShips } = data;
+  const {
+    playerBoard,
+    playerShips,
+    updateShips,
+    resetPlayerData,
+    generatePlayerRandom,
+  } = data;
 
   const goTo = useNavigate();
   useEffect(() => {
     if (game.gameState !== "setup") goTo("/");
-  });
+    getBusyCells(playerBoard);
+  }, [playerBoard, game.gameState, goTo]);
 
   const startGame = () => {
     if (playerBoard.shipPositions.length === 5) {
@@ -36,12 +44,12 @@ function Placement() {
   const setShip = (coords: Coords) => {
     const isSet = playerBoard.placeShip(coords, selected);
     if (isSet) {
-      getBusyCells();
+      getBusyCells(playerBoard);
     }
   };
 
   // Check if cell is occupied or not
-  const getBusyCells = () => {
+  const getBusyCells = (playerBoard: GameBoard) => {
     const cells = [];
     // Find ship
     for (const shipPos of playerBoard.shipPositions) {
@@ -68,10 +76,7 @@ function Placement() {
 
   //Const reset board
   const resetBoard = () => {
-    // Clean data from player gameBoard
-    data.playerBoard.createMemBoard(10);
-    data.playerBoard.shipPositions = [];
-    // Clean busyCells
+    resetPlayerData();
     setPlacedShipsCells([]);
   };
 
@@ -92,6 +97,13 @@ function Placement() {
           changeDirection={handleDirection}
         >
           <ControlButton
+            id="generateRandom"
+            text="Random Board"
+            onClick={() => {
+              generatePlayerRandom();
+            }}
+          />
+          <ControlButton
             id="resetBtn"
             text="Reset Board"
             onClick={resetBoard}
@@ -111,6 +123,9 @@ function ConsiderationsTable() {
       </h1>
       <h2 className="text-lg font-semibold">Some considerations:</h2>
       <ol>
+        <li>
+          - When a ship can't be placed, it won't be highlighted when you hover
+        </li>
         <li>- You can't put a ship next to each other</li>
         <li>
           - Double-click a ship in the container to change its orientation

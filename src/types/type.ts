@@ -26,6 +26,8 @@ export interface GameDataContextValue {
   initGameData: (name?: string) => void;
   updateState: (state: gameState) => void;
   updateShips: (ships: Ship[]) => void;
+  resetPlayerData: () => void;
+  generatePlayerRandom: () => void;
   player: Player;
   computer: Player;
   playerShips: Ship[];
