@@ -125,6 +125,7 @@ function ConsiderationsTable() {
       <ol>
         <li>
           - When a ship can't be placed, it won't be highlighted when you hover
+          on the board
         </li>
         <li>- You can't put a ship next to each other</li>
         <li>
