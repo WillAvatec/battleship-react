@@ -155,7 +155,7 @@ describe("Testing receiveAttack method", () => {
     });
     it("Should save missed shot in enemyArrays", () => {
       expect(_gameboard.receiveAttack({ column: 0, row: 0 })).toBe(false);
-      expect(_gameboard.enemyShots.length).toBe(1);
+      expect(_gameboard.shots.length).toBe(1);
     });
   });
 
@@ -251,5 +251,18 @@ describe("Test areAllSunked method", () => {
       }
     }
     expect(_gameboard.areAllSunked()).toBe(true);
+  });
+});
+
+describe("Test blowNeighbors", () => {
+  test("When ship is sunked, destroy all adjacent cells", () => {
+    // Place ship
+    _gameboard.placeShip({ column: 1, row: 1 }, _ship);
+    // Sunk it
+    _gameboard.receiveAttack({ column: 1, row: 1 });
+    _gameboard.receiveAttack({ column: 2, row: 1 });
+    _gameboard.receiveAttack({ column: 3, row: 1 });
+    expect(_ship.sunked).toBe(true);
+    // Add adjacents cells to the shots array
   });
 });

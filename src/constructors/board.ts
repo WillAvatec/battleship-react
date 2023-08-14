@@ -147,12 +147,15 @@ export default class GameBoard {
     if (possibleShip === 0) {
       return false;
     } else {
-      // It hitted a boat, search for it
-      // Look for it in the shipPositions
-      const ship = this.shipPositions.find((shiPos) => {
+      // It hitted a boat, search for it in the shipPositions
+      const shipPos = this.shipPositions.find((shiPos) => {
         return JSON.stringify(shiPos) === JSON.stringify(possibleShip);
-      });
-      ship?.ship.hit();
+      }) as ShipPosition;
+
+      shipPos.ship.hit();
+      if (shipPos.ship.sunked) {
+        this.blowNeighbors(shipPos);
+      }
       this.areAllSunked();
       return true;
     }
@@ -187,5 +190,58 @@ export default class GameBoard {
 
     // The iteration is over and didn't found a ship that wasn't sunked
     return true;
+  }
+
+  private blowNeighbors(shipPos: ShipPosition) {
+    // Get data of the ship and its position on the board
+    const { isVertical, size } = shipPos.ship;
+    const { column, row } = shipPos.start;
+
+    // Iterate over orientation of ship starting point
+    if (isVertical) {
+      for (let i = -1; i <= size; i++) {
+        for (let j = -1; j < 2; j++) {
+          // Check that position doesn't goes out of the board
+          const cJ = column + j;
+          const rI = row + i;
+
+          if (cJ < 0 || cJ > BOARD_MAX_INDEX) continue;
+          if (rI < 0 || rI > BOARD_MAX_INDEX) continue;
+
+          // Ensure that position is not in shots array
+          const newCoord: Coords = { column: cJ, row: rI };
+          const wasShot = this.shots.some((coords) => {
+            JSON.stringify(coords) === JSON.stringify(newCoord);
+          });
+          if (wasShot) {
+            continue;
+          } else {
+            this.shots.push(newCoord);
+          }
+        }
+      }
+    } else if (!isVertical) {
+      for (let i = -1; i < 2; i++) {
+        for (let j = -1; j <= size; j++) {
+          // Check that position doesn't goes out of the board
+          const cJ = column + j;
+          const rI = row + i;
+
+          if (cJ < 0 || cJ > BOARD_MAX_INDEX) continue;
+          if (rI < 0 || rI > BOARD_MAX_INDEX) continue;
+
+          // Ensure that position is not in shots array
+          const newCoord: Coords = { column: cJ, row: rI };
+          const wasShot = this.shots.some((coords) => {
+            JSON.stringify(coords) === JSON.stringify(newCoord);
+          });
+          if (wasShot) {
+            continue;
+          } else {
+            this.shots.push(newCoord);
+          }
+        }
+      }
+    }
   }
 }
