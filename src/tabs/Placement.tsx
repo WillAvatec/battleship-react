@@ -85,7 +85,7 @@ function Placement() {
   };
 
   return (
-    <div className="flex gap-7 flex-col items-center justify-around min-h-full">
+    <div className="flex gap-7 flex-col items-center justify-around min-h-full my-10 pb-20">
       <ConsiderationsTable />
       <MainTable>
         <PlacementBoard
@@ -124,8 +124,8 @@ function Placement() {
 
 function ConsiderationsTable() {
   return (
-    <div className="border-double m-6 md:m-0 border-slate-300 border-8 bg-slate-600 p-3">
-      <h1 className="text-xl text-center text-white sm:text-3xl">
+    <div className="border-double m-6 md:m-0 light-box-border bg-amber-100 p-3 text-slate-950">
+      <h1 className="text-xl text-center sm:text-3xl">
         Place your ships!
       </h1>
       <h2 className="text-lg font-semibold">Some considerations:</h2>
@@ -164,7 +164,7 @@ function ControlButton({
     <button
       id={id}
       onClick={onClick}
-      className="bg-pink-700 text-white py-1 px-8 text-xl"
+      className="bg-yellow-600 text-white py-1 px-8 text-xl"
     >
       {text}
     </button>

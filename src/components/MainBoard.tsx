@@ -24,12 +24,12 @@ function PlayerBoard({
 }: PlayerBoardProps) {
   return (
     <div className="player-side p-5 relative">
-      <div className="bg-pink-600 -z-10 absolute inset-0 blur" />
       <div className="player-name overflow-hidden whitespace-nowrap text-violet-50 max-w-sm text-ellipsis drop-shadow-2xl inline-block text-xl absolute -top-4 sm:-top-8">
         {name}
       </div>
       {/* Here starts the board */}
-      <div className="board border-pink-600 relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 border-8 bg-slate-900 flex flex-col">
+      <div className="board box-border bg-bamboo bg-no-repeat bg-cover relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 border-8 flex flex-col">
+      <div className="bg-black bg-opacity-30 absolute inset-0" />
         <DisablePatch show={showDisable} />
         {memBoard.map((row, rowID) => {
           const isFirstRow = rowID === 0;

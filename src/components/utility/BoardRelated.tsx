@@ -6,8 +6,8 @@ export function Marker({ pos, top }: { pos: number; top?: true }) {
   return (
     <div
       className={`marker ${
-        top ? "-top-5  sm:-top-7" : " -left-3 sm:-left-5"
-      } text-white absolute flex text-sm font-mono font-bold select-none cursor-default`}
+        top ? "-top-6  sm:-top-7" : " -left-4 sm:-left-5"
+      } text-white absolute flex text-base font-mono sm:font-bold select-none cursor-default`}
     >
       {pos}
     </div>
@@ -37,9 +37,7 @@ export function Cell({
   col,
   hover,
   cursor,
-  wasHit,
   children,
-  isShip,
   isOccupied,
   onClick,
   onMouseEnter,
@@ -52,11 +50,10 @@ export function Cell({
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`relative inline-flex flex-1 justify-center items-center text-xl border border-opacity-75 border-pink-600
+      className={`relative inline-flex flex-1 justify-center items-center text-xl border border-opacity-75 border-yellow-400
       ${isOccupied && "pointer-events-none cursor-not-allowed"}
-      ${isOccupied ? "bg-blue-400" : hover ? "bg-white" : "bg-transparent"}
+      ${isOccupied ? "bg-amber-600" : hover ? "bg-amber-100" : "bg-transparent"}
       ${cursor ? cursor : ""}
-      ${wasHit ? (isShip ? "bg-red-400" : "bg-green-300") : ""}
       `}
     >
       {children}
@@ -78,9 +75,9 @@ export function GameCell({
       data-row={row}
       data-column={col}
       onClick={onClick}
-      className={`relative inline-flex flex-1 justify-center items-center text-xl border border-opacity-75 border-pink-600 hover:outline-2 hover:z-10 hover:outline hover:outline-white
+      className={`relative inline-flex flex-1 justify-center items-center text-xl border border-opacity-75 border-yellow-400 hover:outline-2 hover:z-10 hover:outline hover:outline-white
       ${cursor ? cursor : ""}
-      ${wasHit ? (isShip ? "bg-red-400" : "bg-green-300") : ""}
+      ${wasHit ? (isShip ? "bg-amber-500" : "bg-amber-700") : ""}
       `}
     >
       {children}

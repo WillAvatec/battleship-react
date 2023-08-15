@@ -42,7 +42,8 @@ function PlacementBoard({
   };
 
   return (
-    <div className="board border-pink-600 relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 border-8 bg-slate-900 flex flex-col">
+    <div className="board box-border border-green-950 relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 border-8 bg-bamboo bg-no-repeat bg-cover bg-black flex flex-col">
+      <div className="absolute bg-black bg-opacity-20 inset-0"/>
       {board.map((row, rowID) => (
         <CellsRow key={rowID}>
           {row.map((_, colID) => {

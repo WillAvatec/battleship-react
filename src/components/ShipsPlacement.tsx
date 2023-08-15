@@ -38,7 +38,7 @@ function ShipPlacementContainer({
       <div
         onClick={selectShip}
         onDoubleClick={() => changeDirection(shipIndex)}
-        className="grid auto-cols-fr auto-rows-auto gap-5 md:gap-4 justify-center content-center px-6 py-3 h-64 md:px-7 md:py-4 bg-slate-700  shadow-lg shadow-cyan-500/50 rounded-xl"
+        className="tree-border border-8 mt-4 h-80 grid auto-cols-fr auto-rows-auto gap-5 md:gap-4 justify-center content-center px-2 py-10 bg-amber-100 shadow-lg rounded-xl"
       >
         {shipsArray.map((ship, index) => {
           const size = ship.size;
@@ -94,7 +94,7 @@ function ShipSelector({
     <button
       data-shiporder={pos}
       disabled={disable}
-      className={`ship-selector disabled:bg-slate-300 group inline-flex relative z-10 w-max cursor-pointer ${evaluate}`}
+      className={`ship-selector disabled:bg-slate-300 group rounded inline-flex relative z-10 w-max cursor-pointer ${evaluate}`}
     >
       {cells}
     </button>
@@ -108,13 +108,13 @@ function ShipCells({
   isVertical: boolean;
   disable: boolean;
 }) {
-  const shouldDisable = disable ? "bg-slate-400" : "bg-indigo-50";
+  const shouldDisable = disable ? "" : "bg-green-500";
   const shouldVertical = isVertical
-    ? "group-hover:bg-orange-400"
-    : "group-hover:bg-cyan-600";
+    ? "group-hover:bg-amber-700"
+    : "group-hover:bg-green-800";
   return (
     <div
-      className={`ship-cells w-6 h-6 md:w-8 md:h-8 ${shouldDisable} ${shouldVertical}  relative pointer-events-none`}
+      className={`ship-cells w-6 h-6 md:w-8 md:h-8 ${shouldDisable} ${shouldVertical}  relative pointer-events-none transition-colors`}
     ></div>
   );
 }
