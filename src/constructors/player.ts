@@ -27,7 +27,7 @@ export class Player {
       return false;
     }
 
-    this.record.push({ row: coords.row, column: coords.column });
+    this.record.push({ column: coords.column, row: coords.row });
     return board.receiveAttack(coords);
   }
 
@@ -39,9 +39,16 @@ export class Player {
     let row = Math.floor(Math.random() * 10);
     let column = Math.floor(Math.random() * 10);
 
-    while (this.hasAlreadyHit({ row, column })) {
+    let shouldRetry = true;
+
+    while (shouldRetry) {
       row = Math.floor(Math.random() * 10);
       column = Math.floor(Math.random() * 10);
+      if (this.wasHitBefore({ column, row }, board)) {
+        shouldRetry = true;
+      } else {
+        shouldRetry = false;
+      }
     }
 
     const didHit = this.attackTo({ column, row }, board); //This was value
@@ -56,7 +63,7 @@ export class Player {
     };
   }
 
-  hasAlreadyHit(coords: Coords) {
+  wasHitBefore(coords: Coords, board: GameBoard) {
     for (let i = 0; i < this.record.length; i += 1) {
       if (
         this.record[i].row === coords.row &&
@@ -65,6 +72,13 @@ export class Player {
         return true;
       }
     }
+
+    if (
+      board.shots.some((coord) => {
+        return JSON.stringify(coord) === JSON.stringify(coords);
+      })
+    )
+      return true;
 
     return false;
   }
