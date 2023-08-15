@@ -6,10 +6,6 @@ export default {
       fontFamily:{
         'grotesque':['Bricolage Grotesque', 'sans-serif']
       },
-      backgroundImage:{
-        'bamboo':"url('./src/assets/bamboo.jpg')",
-        'box':"url('./src/assets/box.jpg')"
-      }
     },
 
   },

@@ -93,6 +93,12 @@ body,
   }
 }
 
+/* Styles for backgrounds */
+.bg-bamboo{
+  background-image: url('./assets/bamboo.jpg');
+}
+
+
 /* Styles for border image */
 
 .tree-border {
