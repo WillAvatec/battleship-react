@@ -48,8 +48,17 @@ function MainGame() {
       goTo("/winner");
     }
 
-    updateBoard(computerBoard);
-    setPcBoardCells((prevArr) => [...prevArr, { coords, landed: didHit }]);
+    setPcBoardCells(() => {
+      const hitcells: HitCell[] = computerBoard.shots.map((shotCoord) => {
+        if (JSON.stringify(shotCoord) === JSON.stringify(coords)) {
+          return { coords, landed: didHit };
+        } else {
+          return { coords: shotCoord, landed: false };
+        }
+      });
+
+      return hitcells;
+    });
 
     // Now hand to the pc
     handlePCAttack();
@@ -63,10 +72,17 @@ function MainGame() {
         setWinner(computer.name);
         goTo("/lose");
       }
-      setPlayerBoardCells((prevArr) => [
-        ...prevArr,
-        { coords, landed: didHit },
-      ]);
+      setPlayerBoardCells(() => {
+        const hitcells: HitCell[] = playerBoard.shots.map((shotCoord) => {
+          if (JSON.stringify(shotCoord) === JSON.stringify(coords)) {
+            return { coords, landed: didHit };
+          } else {
+            return { coords: shotCoord, landed: false };
+          }
+        });
+
+        return hitcells;
+      });
     }
   };
 
