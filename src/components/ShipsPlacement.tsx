@@ -3,6 +3,7 @@ import Ship from "../constructors/ship";
 
 interface ShipContainerProps {
   shipsArray: Ship[];
+  placedShips: Ship[];
   changeDirection: (index: number) => void;
   select: (index: number) => void;
 }
@@ -11,6 +12,7 @@ function ShipPlacementContainer({
   select,
   children,
   shipsArray,
+  placedShips,
   changeDirection,
 }: PropsWithChildren<ShipContainerProps>) {
   const [shipIndex, setIndex] = useState(0);
@@ -24,6 +26,10 @@ function ShipPlacementContainer({
       // Set new index
       setIndex(orderIndex);
     }
+  };
+
+  const shouldDisable = (ship: Ship) => {
+    return placedShips.some((placed) => Object.is(placed, ship));
   };
 
   return (
@@ -40,6 +46,7 @@ function ShipPlacementContainer({
           return (
             <ShipGrid key={index} size={size}>
               <ShipSelector
+                disable={shouldDisable(ship)}
                 pos={index}
                 size={size}
                 isVertical={isVertical}
@@ -66,35 +73,48 @@ function ShipSelector({
   size = 1,
   selected,
   isVertical,
+  disable,
 }: {
   pos: number;
   size: number;
   selected?: boolean;
   isVertical: boolean;
+  disable: boolean;
 }) {
   const cells = [];
   for (let i = 0; i < size; i++) {
-    cells.push(<ShipCells isVertical={isVertical} key={i} />);
+    cells.push(<ShipCells disable={disable} isVertical={isVertical} key={i} />);
   }
+  const evaluate = selected
+    ? isVertical
+      ? "selected-vertical"
+      : "selected"
+    : "";
   return (
-    <div
+    <button
       data-shiporder={pos}
-      className={`ship-selector
-      } group inline-flex relative z-10 w-max cursor-pointer ${
-        selected ? (isVertical ? "selected-vertical" : "selected") : ""
-      }`}
+      disabled={disable}
+      className={`ship-selector disabled:bg-slate-300 group inline-flex relative z-10 w-max cursor-pointer ${evaluate}`}
     >
       {cells}
-    </div>
+    </button>
   );
 }
 
-function ShipCells({ isVertical }: { isVertical: boolean }) {
+function ShipCells({
+  isVertical,
+  disable,
+}: {
+  isVertical: boolean;
+  disable: boolean;
+}) {
+  const shouldDisable = disable ? "bg-slate-400" : "bg-indigo-50";
+  const shouldVertical = isVertical
+    ? "group-hover:bg-orange-400"
+    : "group-hover:bg-cyan-600";
   return (
     <div
-      className={`ship-cells w-6 h-6 md:w-8 md:h-8 bg-indigo-50  relative pointer-events-none ${
-        isVertical ? "group-hover:bg-orange-400" : "group-hover:bg-cyan-600"
-      }`}
+      className={`ship-cells w-6 h-6 md:w-8 md:h-8 ${shouldDisable} ${shouldVertical}  relative pointer-events-none`}
     ></div>
   );
 }

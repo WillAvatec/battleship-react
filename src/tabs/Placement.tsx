@@ -34,6 +34,7 @@ function Placement() {
 
   //Define the selected ship
   const [selected, setSelected] = useState<Ship>(playerShips[0]);
+  const [placedShips, setPlacedShips] = useState<Ship[]>([]);
   const [placedShipsCells, setPlacedShipsCells] = useState<Coords[]>([]);
 
   //Selects the ship inside the players board
@@ -44,7 +45,10 @@ function Placement() {
   const setShip = (coords: Coords) => {
     const isSet = playerBoard.placeShip(coords, selected);
     if (isSet) {
+      // Get hovered cells
       getBusyCells(playerBoard);
+      // Disable changeDirection and Select ships on ShipsContainer
+      setPlacedShips((prevState) => [...prevState, selected]);
     }
   };
 
@@ -81,7 +85,7 @@ function Placement() {
   };
 
   return (
-    <div className="flex flex-row gap-7 md:flex-col items-center justify-around min-h-full">
+    <div className="flex gap-7 flex-col items-center justify-around min-h-full">
       <ConsiderationsTable />
       <MainTable>
         <PlacementBoard
@@ -94,6 +98,7 @@ function Placement() {
         <ShipPlacementContainer
           select={handleSelect}
           shipsArray={playerShips}
+          placedShips={placedShips}
           changeDirection={handleDirection}
         >
           <ControlButton
@@ -110,14 +115,16 @@ function Placement() {
           />
         </ShipPlacementContainer>
       </MainTable>
-      <ControlButton text="Play" id="playBtn" onClick={startGame} />
+      <div className="p-5 pb-10 md:p-0">
+        <ControlButton text="Play" id="playBtn" onClick={startGame} />
+      </div>
     </div>
   );
 }
 
 function ConsiderationsTable() {
   return (
-    <div className="border-double border-slate-300 border-8 bg-slate-600 p-3">
+    <div className="border-double m-6 md:m-0 border-slate-300 border-8 bg-slate-600 p-3">
       <h1 className="text-xl text-center text-white sm:text-3xl">
         Place your ships!
       </h1>
