@@ -1,12 +1,18 @@
 import { Fragment } from "react";
 import { Coords, HitCell, memBoardType } from "../types/type";
-import { CellsRow, GameCell, Marker } from "./utility/BoardRelated";
+import {
+  CellsRow,
+  DisablePatch,
+  GameCell,
+  Marker,
+} from "./utility/BoardRelated";
 
 interface PlayerBoardProps {
   onClick: (e: React.MouseEvent) => void;
   attackedCells: HitCell[];
   memBoard: memBoardType;
   name: string;
+  showDisable?: boolean;
 }
 
 function PlayerBoard({
@@ -14,6 +20,7 @@ function PlayerBoard({
   name,
   attackedCells,
   onClick,
+  showDisable,
 }: PlayerBoardProps) {
   return (
     <div className="player-side p-5 relative">
@@ -23,6 +30,7 @@ function PlayerBoard({
       </div>
       {/* Here starts the board */}
       <div className="board border-pink-600 relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 border-8 bg-slate-900 flex flex-col">
+        <DisablePatch show={showDisable} />
         {memBoard.map((row, rowID) => {
           const isFirstRow = rowID === 0;
           return (

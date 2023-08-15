@@ -7,18 +7,12 @@ import { useNavigate } from "react-router-dom";
 function MainGame() {
   // Get data from context
   const game = useContext(DataContext);
-  const {
-    playerBoard,
-    player,
-    computerBoard,
-    computer,
-    updateBoard,
-    gameState,
-    setWinner,
-  } = game;
+  const { playerBoard, player, computerBoard, computer, gameState, setWinner } =
+    game;
 
   const [pcBoardCells, setPcBoardCells] = useState<HitCell[]>([]);
   const [playerBoardCells, setPlayerBoardCells] = useState<HitCell[]>([]);
+  const [show, setShow] = useState(false);
 
   const goTo = useNavigate();
 
@@ -60,8 +54,13 @@ function MainGame() {
       return hitcells;
     });
 
+    //Show disable div
+    setShow(true);
+
     // Now hand to the pc
-    handlePCAttack();
+    setTimeout(() => {
+      handlePCAttack();
+    }, 600);
   };
 
   const handlePCAttack = () => {
@@ -83,6 +82,7 @@ function MainGame() {
 
         return hitcells;
       });
+      setShow(false);
     }
   };
 
@@ -103,6 +103,7 @@ function MainGame() {
           attackedCells={pcBoardCells}
           onClick={handlePlayerAttack}
           name={computer.name}
+          showDisable={show}
         />
       </section>
     </div>

@@ -90,6 +90,15 @@ export function GameCell({
 
 // If its occupied, set color to bg to blue
 
+export function DisablePatch({ show }: { show?: boolean }) {
+  const shouldShow = show ? "" : "hidden";
+  return (
+    <div
+      className={`bg-gray-900 z-50 bg-opacity-75 absolute inset-0 ${shouldShow}`}
+    ></div>
+  );
+}
+
 // Box that represents a ship
 
 export function BoxShip() {
