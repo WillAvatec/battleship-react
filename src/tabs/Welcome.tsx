@@ -23,12 +23,12 @@ function Welcome() {
   };
 
   return (
-    <div className="fixed z-10 left-0 top-0 w-full h-full bg-black bg-opacity-40 min-w-full min-h-full flex justify-center content-center">
-      <form className="tree-border relative grid grid-cols-[repeat(auto-fit,minmax(200px,400px))] grid-rows-3 justify-center gap-7 min-h-[200px] p-5 w-11/12 mx-auto my-auto justify-items-center rounded-xl bg-stone-300 text-black max-w-screen-sm">
+    <div className="fixed z-10 left-0 top-0 w-full h-full bg-black bg-opacity-50 min-w-full min-h-full flex justify-center content-center">
+      <form className="tree-border relative grid grid-cols-[repeat(auto-fit,minmax(200px,400px))] grid-rows-3 justify-center gap-7 min-h-[200px] p-5 w-11/12 mx-auto my-auto justify-items-center rounded-xl text-black max-w-screen-sm bg-gradient-to-r from-amber-400 to-amber-600 bg-no-repeat bg-contain">
         <div className="flex align-center">
           <p
             id="welcome"
-            className="text-4xl font-semibold align-middle leading-8 h-9 uppercase"
+            className="text-4xl text-center font-semibold align-middle leading-8 h-9 uppercase"
           >
             Welcome Aboard!
           </p>
