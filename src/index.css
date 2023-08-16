@@ -103,7 +103,12 @@ body,
 
 .tree-border {
   border: 40px solid;
-  border-image: url('./assets/border.png') 45 / 40px / 25px round;
+  border-image: url('./assets/border.png') 45 / 50px / 0 round;
+}
+
+.tree-border-2 {
+  border: 20px solid;
+  border-image: url('./assets/border.png') 45 / 50px / 23px round;
 }
 
 .box-border {

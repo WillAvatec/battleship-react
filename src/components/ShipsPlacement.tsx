@@ -38,7 +38,7 @@ function ShipPlacementContainer({
       <div
         onClick={selectShip}
         onDoubleClick={() => changeDirection(shipIndex)}
-        className="tree-border border-8 mt-4 h-80 grid auto-cols-fr auto-rows-auto gap-5 md:gap-4 justify-center content-center px-2 py-10 bg-amber-100 shadow-lg rounded-xl"
+        className="tree-border-2 mt-4 h-80 grid auto-cols-fr auto-rows-auto gap-5 md:gap-4 pl-8 md:pl-4  content-center  bg-gradient-to-bl from-amber-200 to-amber-100 shadow-lg rounded-xl"
       >
         {shipsArray.map((ship, index) => {
           const size = ship.size;
