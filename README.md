@@ -1,28 +1,37 @@
 # Battleship!
-## React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technology Stack
+ - React
+ - TypeScript
+ - TailwindCSS
+ - Vitest
+ - React Router
 
-Currently, two official plugins are available:
+## Description
+A very simple web app, that resembles a BattleShip game.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Observation
+I created the project to practice TypeScript alongside React.
+While the struggle was very painful, sometimes even to physical levels(headaches),
+it was still very fulfilling to finally complete the code, and see everything work correctly.
+The biggest chunk of time spent was taken by the board class and their tests.
 
-## Expanding the ESLint configuration
+## Pages
+The project features principal 3 pages:
+   + Landing page ("/")
+     
+     ![Welcome page screenshot](https://github.com/WillAvatec/battleship-react/assets/115133403/7ce66dde-1cb0-4dde-ac18-9f7796cfd9a8)
+     
+   + Placement menu ("/placement")
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+     ![Placement page screenshot](https://github.com/WillAvatec/battleship-react/assets/115133403/9b8e063f-2729-4e11-bb57-73ab8d4b8c65)
+     
+   + Main Game ("/game")
 
-- Configure the top-level `parserOptions` property like this:
+     ![Game page screenshot](https://github.com/WillAvatec/battleship-react/assets/115133403/b82abf23-7cb4-45f9-a40f-8c2230bcdc5e)
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Possible Improvements
+- Add sound effects
+- Create a better AI
+- Add background music
+- Display a transition when changing pages
