@@ -124,7 +124,7 @@ function Placement() {
 
 function ConsiderationsTable() {
   return (
-    <div className="border-double m-6 md:m-0 light-box-border bg-amber-100 p-3 text-slate-950">
+    <div className="border-double m-6 md:m-0 light-box-border bg-gradient-to-br from-amber-200 to-amber-100 p-3 text-slate-950">
       <h1 className="text-xl text-center sm:text-3xl">
         Place your ships!
       </h1>
